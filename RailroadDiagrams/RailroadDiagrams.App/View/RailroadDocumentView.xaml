@@ -1,0 +1,84 @@
+﻿<Window x:Class="RailroadDiagrams.App.View.RailroadDocumentView"
+        xmlns:systxt="clr-namespace:System.Text;assembly=mscorlib"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RailroadDiagrams.App.View"
+        mc:Ignorable="d"
+        Height="520.5" Width="930"
+        d:DataContext="{Binding ApplicationContext, Source={DynamicResource Locator}}">
+ <Window.Background>
+  <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+   <GradientStop Color="White" Offset="0"/>
+   <GradientStop Color="#FFFFECE6" Offset="1"/>
+   <GradientStop Color="White" Offset="0.913"/>
+  </LinearGradientBrush>
+ </Window.Background>
+ <Grid Margin="0">
+  <Grid.RowDefinitions>
+   <RowDefinition Height="Auto"/>
+   <RowDefinition/>
+   <RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+
+
+
+  <Menu Name="xMenu" Background="Transparent" Grid.Row="0">
+   <MenuItem Header="File">
+    <MenuItem Header="New" Command="{Binding New}"/>
+    <MenuItem Header="Open" Command="{Binding Open}"/>
+    <MenuItem Header="Save" Command="{Binding Save}"/>
+    <MenuItem Header="Save As" Command="{Binding SaveAs}"/>
+   </MenuItem>
+
+   <MenuItem Header="View"/>
+
+   <MenuItem Header="Edit"/>
+
+   <MenuItem Header="Help"/>
+  </Menu>
+
+  <Grid Name="xLayoutRoot" Grid.Row="1" Grid.Column="1">
+   <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="Auto"/>
+    <ColumnDefinition/>
+   </Grid.ColumnDefinitions>
+
+   <StackPanel Name="xStackPanelToolbox" Width="48" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0">
+
+    <Button Content="Alpha"/>
+    <Button Content="Beta"/>
+    <Button Content="Gamma"/>
+
+    <StackPanel.Resources>
+     <Style TargetType="Button">
+      <Setter Property="Height" Value="48"/>
+      <Setter Property="Margin" Value="0,4,0,0"/>
+     </Style>
+    </StackPanel.Resources>
+   </StackPanel>
+
+   <Grid Background="Transparent" Margin="8,0,4,0" Grid.Row="0" Grid.Column="1">
+    <local:SheetView DataContext="{Binding OpenDocument.OpenSheet, UpdateSourceTrigger=PropertyChanged}"/>
+    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal"/>
+   </Grid>
+  </Grid>
+
+  <StackPanel Orientation="Horizontal" Grid.Row="2" DataContext="{Binding OpenDocument}">
+   <ListView ItemsSource="{Binding Sheets, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    <ListView.ItemsPanel>
+     <ItemsPanelTemplate>
+      <StackPanel Orientation="Horizontal"/>
+     </ItemsPanelTemplate>
+    </ListView.ItemsPanel>
+    <ListView.ItemTemplate>
+     <DataTemplate>
+      <Button Margin="0" Content="{Binding Name}" Command="{Binding SwitchTo}"/>
+     </DataTemplate>
+    </ListView.ItemTemplate>
+   </ListView>
+   <Button Command="{Binding AddSheet}" Margin="4,0,0,0" MinWidth="20" Content="+"/>
+  </StackPanel>
+ </Grid>
+</Window>
