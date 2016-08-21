@@ -19,8 +19,11 @@ namespace RailroadDiagrams.DataModels
       [DataMember(Name = "isTerminal")]
       public bool IsTerminal { get; set; }
 
-      [DataMember(Name = "editorProperties")]
-      public SymbolEditorPropertiesData EditorProperties { get; set; } = new SymbolEditorPropertiesData();
+      [DataMember(Name ="x")]
+      public double X { get; set; }
+
+      [DataMember(Name ="y")]
+      public double Y { get; set; }
 
       [DataMember(Name ="leftConnectionPoint")]
       public int LeftConnectionPointID { get; set; } = -1;

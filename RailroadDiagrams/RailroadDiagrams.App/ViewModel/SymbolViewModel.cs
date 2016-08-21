@@ -10,6 +10,7 @@ using RailroadDiagrams.App.Model;
 using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using System.Diagnostics;
 
 namespace RailroadDiagrams.App.ViewModel
 {
@@ -17,8 +18,22 @@ namespace RailroadDiagrams.App.ViewModel
    {
       Symbol model;
 
-      public ICommand CreateConnection { get; private set; }
+      public SymbolViewModel(Symbol model)
+      {
+         this.model = model;
+         UpdateLeftConnectorPosition = new RelayCommand<Point>(UpdateLeftConnectorPositionExecute);
+         UpdateRightConnectorPosition = new RelayCommand<Point>(UpdateRightConnectorPositionExecute);
+      }
 
+      [PreferredConstructor]
+      public SymbolViewModel() : this(null) { }
+
+      public event EventHandler<ConnectionPointMovedEventArgs> ConnectionPointMoved;
+
+      public ICommand UpdateLeftConnectorPosition { get; private set; }
+      public ICommand UpdateRightConnectorPosition { get; private set; }
+
+      #region Properties
       public bool IsTerminal
       {
          get { return model != null ? model.Data.IsTerminal : false; }
@@ -27,9 +42,11 @@ namespace RailroadDiagrams.App.ViewModel
 
       public string Text
       {
-         get { return model != null ? model.Data.Text : "???"; }
-         set { if (model != null) model.Data.Text = value; }
+         get { return model != null ? model.Text : "???"; }
+         set { if (model != null) model.Text = value; }
       }
+
+      
 
       public Point PointPosition
       {
@@ -37,7 +54,7 @@ namespace RailroadDiagrams.App.ViewModel
          {
             if (model != null)
             {
-               return new Point(model.Data.EditorProperties.X, model.Data.EditorProperties.Y);
+               return new Point(model.Data.X, model.Data.Y);
             }
             else return new Point(0, 0);
          }
@@ -48,13 +65,12 @@ namespace RailroadDiagrams.App.ViewModel
             {
                int x = (int)value.X;
                int y = (int)value.Y;
-               model.Data.EditorProperties.X = x;
-               model.Data.EditorProperties.Y = y;
+               model.Data.X = x;
+               model.Data.Y = y;
                RaisePropertyChanged(nameof(PointPosition));
             }
          }
       }
-
 
       public int LeftConnectionPointID
       {
@@ -66,15 +82,28 @@ namespace RailroadDiagrams.App.ViewModel
          get { return model.Data.RightConnectionPointID; }
       }
 
-      public SymbolViewModel(Symbol model, ICommand createConnectionCommad)
+      #endregion
+
+      private void UpdateLeftConnectorPositionExecute(Point obj)
       {
-         this.model = model;
-         CreateConnection = createConnectionCommad;
+         ConnectionPointMoved?.Invoke(this, new ConnectionPointMovedEventArgs(model.Data.LeftConnectionPointID, obj));
       }
 
-      
+      private void UpdateRightConnectorPositionExecute(Point obj)
+      {
+         ConnectionPointMoved?.Invoke(this, new ConnectionPointMovedEventArgs(model.Data.RightConnectionPointID, obj));
+      }
+   }
 
-      [PreferredConstructor]
-      public SymbolViewModel() : this(null, null) { }
+   public class ConnectionPointMovedEventArgs:EventArgs
+   {
+      public int PointID { get; set; }
+      public Point Position { get; set; }
+
+      public ConnectionPointMovedEventArgs(int pointID, Point position)
+      {
+         this.PointID = pointID;
+         this.Position = position;
+      }
    }
 }

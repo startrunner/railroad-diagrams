@@ -30,27 +30,32 @@ namespace RailroadDiagrams.App.View
          InitializeComponent();
 
          OnIsTerminalChanged(this, new DependencyPropertyChangedEventArgs(IsTerminalProperty, !IsTerminal, IsTerminal));
-         OnLeftConnectorIDValueChanged(this, new DependencyPropertyChangedEventArgs(LeftConnectorIDProperty, -1, 0));
-         OnRightConnectorIDValueChanged(this, new DependencyPropertyChangedEventArgs(RightConnectorIDProperty, -1, 0));
+         OnLeftConnectionPointIDValueChanged(this, new DependencyPropertyChangedEventArgs(LeftConnectionPointIDProperty, -1, 0));
+         OnRightConnectionPointIDValueChanged(this, new DependencyPropertyChangedEventArgs(RightConnectionPointIDProperty, -1, 0));
 
          xTextBoxText.SetBinding(TextBox.TextProperty, new Binding(nameof(Text)) { Source = this, Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
 
          this.xConnectorDotLeft.Connected += OnConnectorDotConnected;
          this.xConnectorDotRight.Connected += OnConnectorDotConnected;
+         this.xConnectorDotLeft.GotConnected += OnConnectorDotGotConnected;
+         this.xConnectorDotRight.GotConnected += OnConnectorDotGotConnected;
+
+         this.Loaded += (x, y) => UpdateConnectionPointPositions();
+         this.DataContextChanged += (x, y) => UpdateConnectionPointPositions();
       }
 
-      private void OnConnectorDotConnected(Object sender, ConnectorDotConnectedEventArgs e)
-      {
-         xCreateConnectionCommand.Execute(new Tuple<int, int>(e.ID1, e.ID2));
-      }
+      
 
       #region Dependency Properties
       public static readonly DependencyProperty IsTerminalProperty = DependencyProperty.Register(nameof(IsTerminal), typeof(bool), typeof(SymbolView), new PropertyMetadata(defaultValue: true, propertyChangedCallback: OnIsTerminalChanged));
       public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(SymbolView), new PropertyMetadata(""));
       public static readonly DependencyProperty UpperCaptionProperty = DependencyProperty.Register(nameof(UpperCaption), typeof(string), typeof(SymbolView), new PropertyMetadata(""));
       public static readonly DependencyProperty PositionProperty = DependencyProperty.Register(nameof(Position), typeof(Point), typeof(SymbolView), new PropertyMetadata(new Point(0, 0), OnPositionValueChanged));
-      public static readonly DependencyProperty LeftConnectorIDProperty = DependencyProperty.Register(nameof(LeftConnectorID), typeof(int), typeof(SymbolView), new PropertyMetadata(0, OnLeftConnectorIDValueChanged));
-      public static readonly DependencyProperty RightConnectorIDProperty = DependencyProperty.Register(nameof(RightConnectorID), typeof(int), typeof(SymbolView), new PropertyMetadata(0, OnRightConnectorIDValueChanged));
+      public static readonly DependencyProperty LeftConnectionPointIDProperty = DependencyProperty.Register(nameof(LeftConnectionPointID), typeof(int), typeof(SymbolView), new PropertyMetadata(0, OnLeftConnectionPointIDValueChanged));
+      public static readonly DependencyProperty RightConnectionPointIDProperty = DependencyProperty.Register(nameof(RightConnectionPointID), typeof(int), typeof(SymbolView), new PropertyMetadata(0, OnRightConnectionPointIDValueChanged));
+      public static readonly DependencyProperty UpdateConnectionPointPositionCommandProperty = DependencyProperty.Register(nameof(UpdateConnectionPointPositionCommand), typeof(ICommand), typeof(SymbolView), new PropertyMetadata());
+      public static readonly DependencyProperty CreateConnectionCommandProperty = DependencyProperty.Register(nameof(CreateConnectionCommand), typeof(ICommand), typeof(SymbolView), new PropertyMetadata());
+
       #endregion
 
       #region Properties
@@ -74,19 +79,50 @@ namespace RailroadDiagrams.App.View
          get { return (Point)GetValue(PositionProperty); }
          set { SetValue(PositionProperty, value); }
       }
-      public int LeftConnectorID
+      public int LeftConnectionPointID
       {
-         get { return (int)GetValue(LeftConnectorIDProperty); }
-         set { SetValue(LeftConnectorIDProperty, value); }
+         get { return (int)GetValue(LeftConnectionPointIDProperty); }
+         set { SetValue(LeftConnectionPointIDProperty, value); }
       }
-      public int RightConnectorID
+      public int RightConnectionPointID
       {
-         get { return (int)GetValue(RightConnectorIDProperty); }
-         set { SetValue(RightConnectorIDProperty, value); }
+         get { return (int)GetValue(RightConnectionPointIDProperty); }
+         set { SetValue(RightConnectionPointIDProperty, value); }
+      }
+      public ICommand UpdateConnectionPointPositionCommand
+      {
+         get { return GetValue(UpdateConnectionPointPositionCommandProperty) as ICommand; }
+         set { SetValue(UpdateConnectionPointPositionCommandProperty, value); }
+      }
+      public ICommand CreateConnectionCommand
+      {
+         get { return GetValue(CreateConnectionCommandProperty) as ICommand; }
+         set { SetValue(CreateConnectionCommandProperty, value); }
       }
       #endregion
 
+      #region DependencyProperty OnValueChanged Handlers
+      private static void OnPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+      {
+         if (d is SymbolView == false) return;
+         if (e.NewValue is Point == false) return;
+         SymbolView view = d as SymbolView;
+         Point newVal = (Point)e.NewValue;
 
+         view.Margin = new Thickness(newVal.X, newVal.Y, 0, 0);
+
+         view.UpdateConnectionPointPositions();
+      }
+      private static void OnLeftConnectionPointIDValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+      {
+         SymbolView view = d as SymbolView;
+         view.xConnectorDotLeft.UniqueID = view.LeftConnectionPointID;
+      }
+      private static void OnRightConnectionPointIDValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+      {
+         SymbolView view = d as SymbolView;
+         view.xConnectorDotRight.UniqueID = view.RightConnectionPointID;
+      }
       private static void OnIsTerminalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
       {
          if (d is SymbolView == false) return;
@@ -107,52 +143,49 @@ namespace RailroadDiagrams.App.View
          }
          view.xMenuItemIsTerminal.IsChecked = isTerminal;
       }
+      #endregion
 
-      private static void OnPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+      #region Control Event Handlers
+      private void OnConnectorDotConnected(Object sender, ConnectorDotConnectedEventArgs e)
       {
-         if (d is SymbolView == false) return;
-         if (e.NewValue is Point == false) return;
-         SymbolView view = d as SymbolView;
-         Point newVal = (Point)e.NewValue;
-
-         view.Margin = new Thickness(newVal.Y, newVal.X, 0, 0);
+         CreateConnectionCommand?.Execute(new Tuple<int, int>(e.ID1, e.ID2));
+         UpdateConnectionPointPositions();
       }
 
-
-      private static void OnLeftConnectorIDValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+      private void OnConnectorDotGotConnected(object sender, ConnectorDotConnectedEventArgs e)
       {
-         SymbolView view = d as SymbolView;
-         view.xConnectorDotLeft.UniqueID = view.LeftConnectorID;
-      }
-
-
-      private static void OnRightConnectorIDValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-      {
-         SymbolView view = d as SymbolView;
-         view.xConnectorDotRight.UniqueID = view.RightConnectorID;
+         UpdateConnectionPointPositions();
       }
 
       private void Thumb_DragDelta(Object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
       {
-         Point newPoint = new Point(Position.X + e.VerticalChange, Position.Y + e.HorizontalChange);
+         Point newPoint = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
          Position = newPoint;
       }
 
-      private void xThumb_MouseDoubleClick(Object sender, MouseButtonEventArgs e)
-      {
-         EnableEditTextMode();
-      }
+      private void xThumb_MouseDoubleClick(Object sender, MouseButtonEventArgs e) => EnableEditTextMode();
+      private void xTextBoxText_TextChanged(Object sender, TextChangedEventArgs e) => UpdateConnectionPointPositions();
+      private void xTextBoxText_LostFocus(Object sender, RoutedEventArgs e) => DisableEditTextMode();
+      private void xMenuItemIsTerminal_Click(Object sender, RoutedEventArgs e) => IsTerminal = !IsTerminal;
 
       private void xTextBoxText_KeyUp(Object sender, KeyEventArgs e)
       {
          if (e.Key == Key.Escape || e.Key== Key.Enter) DisableEditTextMode();
       }
+      #endregion
 
-      private void xTextBoxText_LostFocus(Object sender, RoutedEventArgs e)
+      #region Methods
+      private void UpdateConnectionPointPositions()
       {
-         DisableEditTextMode();
-      }
+         var leftRelativePos = xAnchorLeft.RelativePositionTo(this);
+         var rightRelativePos = xAnchorRight.RelativePositionTo(this);
+         var leftPos= new Point(Position.X + leftRelativePos.X, Position.Y + leftRelativePos.Y);
+         var rightPos= new Point(Position.X + rightRelativePos.X, Position.Y + rightRelativePos.Y);
 
+         UpdateConnectionPointPositionCommand?.Execute(new Tuple<int, Point>(LeftConnectionPointID, leftPos));
+         UpdateConnectionPointPositionCommand?.Execute(new Tuple<int, Point>(RightConnectionPointID, rightPos));
+
+      }
       private void EnableEditTextMode()
       {
          if (editTextMode == false)
@@ -178,7 +211,6 @@ namespace RailroadDiagrams.App.View
             editTextMode = false;
          }
       }
-
-      private void xMenuItemIsTerminal_Click(Object sender, RoutedEventArgs e) => IsTerminal = !IsTerminal;
+      #endregion
    }
 }

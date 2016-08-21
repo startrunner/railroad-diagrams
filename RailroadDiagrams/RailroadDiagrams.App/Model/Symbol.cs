@@ -9,9 +9,15 @@ namespace RailroadDiagrams.App.Model
 {
    class Symbol : ModelBase<SymbolData>
    {
-
       public Symbol(SymbolData data) : base(data)
       {
+         
+      }
+
+      public String Text
+      {
+         get { return Data.Text; }
+         set { Data.Text = value; }
       }
    }
 }

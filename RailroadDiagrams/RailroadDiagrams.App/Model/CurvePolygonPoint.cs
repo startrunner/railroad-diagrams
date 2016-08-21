@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace RailroadDiagrams.App.Model
 {
-   class Connection : ModelBase<ConnectionData>
+   class CurvePolygonPoint : ModelBase<CurvePolygonPointData>
    {
-      public Connection(ConnectionData data) : base(data)
+      public CurvePolygonPoint(CurvePolygonPointData data) : base(data)
       {
       }
    }

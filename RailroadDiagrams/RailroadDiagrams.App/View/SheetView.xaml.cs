@@ -25,19 +25,11 @@ namespace RailroadDiagrams.App.View
       public SheetView()
       {
          InitializeComponent();
-         this.KeyDown += OnKeyDown;
-         this.KeyUp += OnKeyUp;
       }
 
-      private void OnKeyDown(Object sender, KeyEventArgs e)
+      private void Grid_MouseMove(Object sender, MouseEventArgs e)
       {
-         Debug.WriteLine(e.Key);
-      }
-
-      private void OnKeyUp(Object sender, KeyEventArgs e)
-      {
-         Debug.WriteLine(e.Key);
-         
+         xTextBlockMousePos.Text = Mouse.GetPosition(xPanelSymbols).ToString();
       }
    }
 }

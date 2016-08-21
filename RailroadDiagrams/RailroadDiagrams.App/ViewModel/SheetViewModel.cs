@@ -1,8 +1,11 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using RailroadDiagrams.App.Model;
+using RailroadDiagrams.DataModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,8 +13,46 @@ namespace RailroadDiagrams.App.ViewModel
 {
    class SheetViewModel
    {
-
       Sheet model;
+      Dictionary<int, List<ConnectionViewModel>> pointConnectionAssoc = new Dictionary<int, List<ConnectionViewModel>>();
+
+      public event EventHandler<EventArgs> SwitchToInvoked;
+
+      [PreferredConstructor]
+      public SheetViewModel() : this(null) { }
+
+      public SheetViewModel(Sheet model)
+      {
+         SwitchTo = new RelayCommand(SwitchToExecute);
+         CreateConnection = new RelayCommand<Tuple<int, int>>(CreateConnectionExecute);
+         UpdateConnectorPosition = new RelayCommand<Tuple<int, Point>>(UpdateConnectorPositionExecute);
+
+         this.model = model;
+         if (model != null)
+         {
+            foreach (var symbolData in model.Data.Symbols)
+            {
+               var symbol = new SymbolViewModel(new Symbol(symbolData));
+               Symbols.Add(symbol);
+            }
+
+            foreach(var connectionData in model.Data.Connections)
+            {
+               var conn = new ConnectionViewModel(new Connection(connectionData));
+               AssociateConnectionPoints(conn);
+               Connections.Add(conn);
+            }
+         };
+      }
+
+      public ICommand UpdateConnectorPosition { get; private set; }
+      public ICommand CreateConnection { get; private set; }
+      public ICommand SwitchTo { get; private set; }
+
+      public ObservableCollection<SymbolViewModel> Symbols { get; private set; } =
+         new ObservableCollection<SymbolViewModel>();
+      public ObservableCollection<ConnectionViewModel> Connections { get; private set; } =
+         new ObservableCollection<ConnectionViewModel>();
 
       public string Name
       {
@@ -24,36 +65,50 @@ namespace RailroadDiagrams.App.ViewModel
          get { return model.Data.ID; }
       }
 
-      public ObservableCollection<SymbolViewModel> Symbols { get; private set; } = new ObservableCollection<SymbolViewModel>();
+      void AssociateConnectionPoints(ConnectionViewModel vm)
+      {
+         var assoc = pointConnectionAssoc;
+         if(!assoc.ContainsKey(vm.StartID))
+         {
+            assoc[vm.StartID] = new List<ConnectionViewModel>();
+         }
+         if(!assoc.ContainsKey(vm.EndID))
+         {
+            assoc[vm.EndID] = new List<ConnectionViewModel>();
+         }
+         assoc[vm.StartID].Add(vm);
+         assoc[vm.EndID].Add(vm);
+      }
 
 
-      public event EventHandler<EventArgs> SwitchToInvoked;
-
-      public ICommand SwitchTo { get; private set; }
       void SwitchToExecute() => SwitchToInvoked?.Invoke(this, new EventArgs());
 
-      public ICommand CreateConnection { get; private set; }
-      private void CreateConnectionExecute(Tuple<int, int> p)
+      void CreateConnectionExecute(Tuple<int, int> connectorIds)
       {
-         model.CreateConnection(p.Item1, p.Item2);
+         ConnectionData result = null;
+         if (!model.TryCreateConnection(connectorIds.Item1, connectorIds.Item2, out result)) return;
+
+         var rModel = new Connection(result);
+         var vm = new ConnectionViewModel(rModel);
+         AssociateConnectionPoints(vm);
+         Connections.Add(vm);
       }
 
-      public SheetViewModel(Sheet model)
+      void UpdateConnectorPositionExecute(Tuple<int, Point> arg)
       {
-         SwitchTo = new RelayCommand(SwitchToExecute);
-         CreateConnection = new RelayCommand<Tuple<int, int>>(CreateConnectionExecute);
+         var connectorID = arg.Item1;
+         var newPos = arg.Item2;
+         var assoc = pointConnectionAssoc;
+         ;
 
-         this.model = model;
-         if(model!=null)
+         if (assoc.ContainsKey(connectorID))
          {
-            foreach(var symbolData in model.Data.Symbols)
+            foreach (var conn in assoc[connectorID])
             {
-               Symbols.Add(new SymbolViewModel(new Symbol(symbolData), CreateConnection));
+               if (conn.StartID == connectorID) conn.StartPosition = newPos;
+               if (conn.EndID == connectorID) conn.EndPosition = newPos;
             }
-         };
+         }
       }
-
-      [PreferredConstructor]
-      public SheetViewModel() : this(null) { }
    }
 }

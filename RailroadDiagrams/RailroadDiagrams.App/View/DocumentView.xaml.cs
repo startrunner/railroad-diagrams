@@ -17,9 +17,9 @@ namespace RailroadDiagrams.App.View
    /// <summary>
    /// Interaction logic for RailroadDocumentView.xaml
    /// </summary>
-   public partial class RailroadDocumentView : Window
+   public partial class DocumentView : Window
    {
-      public RailroadDocumentView()
+      public DocumentView()
       {
          InitializeComponent();
       }

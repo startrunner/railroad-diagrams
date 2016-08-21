@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RailroadDiagrams.DataModels
 {
@@ -11,6 +12,9 @@ namespace RailroadDiagrams.DataModels
    public class CurvePolygonData
    {
       [DataMember(Name = "points")]
-      public List<CurvePointData> Points { get; set; } = new List<CurvePointData>();
+      public List<CurvePolygonPointData> Points { get; set; } = new List<CurvePolygonPointData>();
+
+      [DataMember(Name ="latestPoint")]
+      public int LatestPointID { get; set; } = -1;
    }
 }

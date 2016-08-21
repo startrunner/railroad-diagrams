@@ -43,11 +43,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionData.cs" />
-    <Compile Include="CurvePointData.cs" />
     <Compile Include="CurvePolygonData.cs" />
+    <Compile Include="CurvePolygonPointData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DocumentData.cs" />
     <Compile Include="SheetData.cs" />

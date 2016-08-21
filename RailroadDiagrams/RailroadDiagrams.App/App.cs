@@ -32,7 +32,7 @@ namespace RailroadDiagrams.App
             OpenDocument = document
          };
 
-         var mainView = new RailroadDocumentView();
+         var mainView = new DocumentView();
 
          mainView.DataContext = new ApplicationContextViewModel(context);
 

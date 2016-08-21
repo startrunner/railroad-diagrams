@@ -10,7 +10,10 @@ namespace RailroadDiagrams.DataModels
    [DataContract]
    public class ConnectionData
    {
-      [DataMember(Name = "startID")]
+      [DataMember (Name ="id")]
+      public int ID { get; set; }
+
+      [DataMember(Name = "startId")]
       public int StartID { get; set; }
 
       [DataMember(Name = "endId")]

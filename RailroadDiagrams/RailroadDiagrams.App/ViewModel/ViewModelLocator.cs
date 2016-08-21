@@ -46,6 +46,9 @@ namespace RailroadDiagrams.App.ViewModel
          SimpleIoc.Default.Register<DocumentViewModel>();
          SimpleIoc.Default.Register<SheetViewModel>();
          SimpleIoc.Default.Register<SymbolViewModel>();
+         SimpleIoc.Default.Register<ConnectionViewModel>();
+         SimpleIoc.Default.Register<CurvePolygonViewModel>();
+         SimpleIoc.Default.Register<CurvePolygonPointViewModel>();
       }
 
 
@@ -67,6 +70,21 @@ namespace RailroadDiagrams.App.ViewModel
       public SymbolViewModel Symbol
       {
          get { return ServiceLocator.Current.GetInstance<SymbolViewModel>(); }
+      }
+
+      public ConnectionViewModel Connection
+      {
+         get { return ServiceLocator.Current.GetInstance<ConnectionViewModel>(); }
+      }
+
+      public CurvePolygonViewModel CurvePolygon
+      {
+         get { return ServiceLocator.Current.GetInstance<CurvePolygonViewModel>(); }
+      }
+
+      public CurvePolygonPointViewModel CurvePolygonPoint
+      {
+         get { return ServiceLocator.Current.GetInstance<CurvePolygonPointViewModel>(); }
       }
 
       public static void Cleanup()

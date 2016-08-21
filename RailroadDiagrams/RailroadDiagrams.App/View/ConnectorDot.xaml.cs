@@ -91,7 +91,7 @@ namespace RailroadDiagrams.App.View
          var mousePostion = Mouse.GetPosition(xLineHost);
          connectionLine.X2 = mousePostion.X;
          connectionLine.Y2 = mousePostion.Y;
-         Debug.WriteLine(mousePostion.ToString());
+         //Debug.WriteLine(mousePostion.ToString());
          e.Handled = true;
       }
 
@@ -122,7 +122,7 @@ namespace RailroadDiagrams.App.View
             this.Connected?.Invoke(this, args);
             that.GotConnected?.Invoke(that, args);
 
-            Debug.WriteLine($"Connecting {thisID} to {thatID}");
+            //Debug.WriteLine($"Connecting {thisID} to {thatID}");
          }
 
       }

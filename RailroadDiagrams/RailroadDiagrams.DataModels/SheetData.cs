@@ -25,6 +25,9 @@ namespace RailroadDiagrams.DataModels
       [DataMember(Name = "latestConnectionPoint")]
       public int LatestConnectionPointID { get; set; } = -1;
 
+      [DataMember(Name="latestConnection")]
+      public int LatestConnectionID { get; set; } = -1;
+
       [DataMember(Name="connections")]
       public List<ConnectionData> Connections { get; set; } = new List<ConnectionData>();
    }

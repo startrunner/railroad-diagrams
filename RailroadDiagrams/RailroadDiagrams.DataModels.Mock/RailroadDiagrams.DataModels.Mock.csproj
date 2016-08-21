@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="IMock.cs" />
     <Compile Include="MockDocument.cs" />
-    <Compile Include="MockSymbolEditorProperties.cs" />
     <Compile Include="MockSheet.cs" />
     <Compile Include="MockSymbol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

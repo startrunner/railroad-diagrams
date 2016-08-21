@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:RailroadDiagrams.App.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{Binding Sheet, Source={DynamicResource Locator}}">
+             d:DataContext="{Binding Sheet, Source={DynamicResource Locator}}"
+             Name="xControl">
  <Grid>
 
   <Grid.Background>
@@ -17,38 +18,74 @@
    </VisualBrush>
   </Grid.Background>
   <Grid.RowDefinitions>
-   <RowDefinition Height="64"/>
+   <RowDefinition Height="32"/>
    <RowDefinition/>
   </Grid.RowDefinitions>
 
-  <StackPanel Orientation="Horizontal">
+  <StackPanel Orientation="Horizontal" Background="#AAFFFFFF">
    <TextBlock Text="ID: "/>
    <TextBlock Text="{Binding ID, UpdateSourceTrigger=PropertyChanged}"/>
    <TextBlock Margin="8,0,0,0" Text="Name: "/>
    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+   <TextBlock Name="xTextBlockMousePos" Text="__" HorizontalAlignment="Left" VerticalAlignment="Top"/>
   </StackPanel>
 
-  <Grid Grid.Row="1">
+  <Grid Grid.Row="1" MouseMove="Grid_MouseMove">
+   
    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-    <ItemsControl ItemsSource="{Binding Symbols}">
-     <ItemsControl.ItemsPanel>
-      <ItemsPanelTemplate>
-       <Grid/>
-      </ItemsPanelTemplate>
-     </ItemsControl.ItemsPanel>
-     <ItemsControl.ItemTemplate>
-      <DataTemplate>
-       <local:SymbolView HorizontalAlignment="Left"
+    <Grid>
+     <ItemsControl Name="xPanelSymbols" ItemsSource="{Binding Symbols}">
+      <ItemsControl.ItemsPanel>
+       <ItemsPanelTemplate>
+        <Grid/>
+       </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <local:SymbolView HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Position="{Binding PointPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          IsTerminal="{Binding IsTerminal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         LeftConnectorID="{Binding LeftConnectionPointID}"
-                         RightConnectorID="{Binding RightConenctionPointID}"/>
-      </DataTemplate>
-     </ItemsControl.ItemTemplate>
-    </ItemsControl>
+                         LeftConnectionPointID="{Binding LeftConnectionPointID}"
+                         RightConnectionPointID="{Binding RightConenctionPointID}"
+                         CreateConnectionCommand="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CreateConnection}"
+                         UpdateConnectionPointPositionCommand="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.UpdateConnectorPosition}"/>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+     <ItemsControl ItemsSource="{Binding Connections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+      <ItemsControl.ItemsPanel>
+       <ItemsPanelTemplate>
+        <Grid/>
+       </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <local:ConnectionView StartPosition="{Binding StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              EndPosition="{Binding EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+    </Grid>
    </ScrollViewer>
+
+   <Grid>
+    <ListView VerticalAlignment="Top" HorizontalAlignment="Left" Background="{x:Null}" ItemsSource="{Binding Connections}">
+     <ListView.ItemTemplate>
+      <DataTemplate>
+       <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+        <TextBlock Text="{Binding ID}"/>
+        <TextBlock Text="{Binding StartID}"/>
+        <TextBlock Text="{Binding EndID}"/>
+        <TextBlock Text="{Binding StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Text="{Binding EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+       </StackPanel>
+      </DataTemplate>
+     </ListView.ItemTemplate>
+    </ListView>
+   </Grid>
+   
   </Grid>
  </Grid>
 </UserControl>

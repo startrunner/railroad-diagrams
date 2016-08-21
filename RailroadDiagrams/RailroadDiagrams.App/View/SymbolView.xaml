@@ -49,21 +49,24 @@
 
   <Grid Grid.RowSpan="3">
    <Border BorderThickness="1" BorderBrush="DarkGray" Name="xRectBorder" Background="Gray"/>
-   <TextBox BorderThickness="0" HorizontalAlignment="Center" MaxLines="1" Background="Transparent" IsEnabled="False" Margin="24,8" Name="xTextBoxText" Keyboard.KeyUp="xTextBoxText_KeyUp" LostFocus="xTextBoxText_LostFocus" HorizontalContentAlignment="Center" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" FontFamily="Consolas"/>
+   <TextBox BorderThickness="0" HorizontalAlignment="Center" MaxLines="1" Background="Transparent" IsEnabled="False" Margin="24,8" Name="xTextBoxText" Keyboard.KeyUp="xTextBoxText_KeyUp" LostFocus="xTextBoxText_LostFocus" HorizontalContentAlignment="Center" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" FontFamily="Consolas" TextChanged="xTextBoxText_TextChanged"/>
    <Thumb Name="xThumb" Style="{DynamicResource ButtonStyleClear}" Background="Transparent" DragDelta="Thumb_DragDelta" MouseDoubleClick="xThumb_MouseDoubleClick"/>
   </Grid>
 
   <Grid Grid.Row="1">
-   <local:ConnectorDot x:Name="xConnectorDotLeft" HorizontalAlignment="Left" Width="10" Height="10" Margin="-5,0,0,0"/>
-   <local:ConnectorDot x:Name="xConnectorDotRight" HorizontalAlignment="Right" Width="10" Height="10" Margin="6,0,-5,0"/>
+   <Grid HorizontalAlignment="Left" Width="10" Height="10" Margin="-5,0,0,0">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Name="xAnchorLeft"/>
+    <local:ConnectorDot x:Name="xConnectorDotLeft"/>
+   </Grid>
+   <Grid HorizontalAlignment="Right" Width="10" Height="10" Margin="6,0,-5,0">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Name="xAnchorRight"/>
+    <local:ConnectorDot x:Name="xConnectorDotRight"/>
+   </Grid>
+   
+   <!--
+   <TextBlock Foreground="Pink" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,-100,10,-100" Text="{Binding LeftConnectionPointID}"/>
+   <TextBlock Foreground="Pink" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,-100,10,-100" Text="{Binding RightConenctionPointID}"/>
+   -->
   </Grid>
-  <!--local:CommandWrapperSet>
-   <local:CommandWrapper  x:Name="xCreateConnectionCommand" Command="{Binding CreateConnection}"/>
-  <-->
-  <cw:CommandDictionary>
-   <cw:CommandWrapper Name="xCreateConnectionCommand" Command="{Binding CreateConnection}"/>
-  </cw:CommandDictionary>
-
-
  </Grid>
 </UserControl>

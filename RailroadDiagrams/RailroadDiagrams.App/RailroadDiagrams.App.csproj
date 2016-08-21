@@ -99,6 +99,10 @@
     <Compile Include="App.cs" />
     <Compile Include="Model\ApplicationContext.cs" />
     <Compile Include="Model\Connection.cs" />
+    <Compile Include="Model\ConnectionPointInfo.cs" />
+    <Compile Include="Model\ConnectionPointType%28Enum%29.cs" />
+    <Compile Include="Model\CurvePolygon.cs" />
+    <Compile Include="Model\CurvePolygonPoint.cs" />
     <Compile Include="Model\Document.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\Sheet.cs" />
@@ -109,15 +113,22 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ApplicationContextViewModel.cs" />
+    <Compile Include="ViewModel\ConnectionViewModel.cs" />
+    <Compile Include="ViewModel\CurvePolygonPointViewModel.cs" />
+    <Compile Include="ViewModel\CurvePolygonViewModel.cs" />
     <Compile Include="ViewModel\DocumentViewModel.cs" />
     <Compile Include="ViewModel\SheetViewModel.cs" />
     <Compile Include="ViewModel\SymbolViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\ConnectionView.xaml.cs">
+      <DependentUpon>ConnectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ConnectorDot.xaml.cs">
       <DependentUpon>ConnectorDot.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\RailroadDocumentView.xaml.cs">
-      <DependentUpon>RailroadDocumentView.xaml</DependentUpon>
+    <Compile Include="View\ControlExtensions.cs" />
+    <Compile Include="View\DocumentView.xaml.cs">
+      <DependentUpon>DocumentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SheetView.xaml.cs">
       <DependentUpon>SheetView.xaml</DependentUpon>
@@ -128,7 +139,6 @@
     <Compile Include="View\SymbolViewTest.xaml.cs">
       <DependentUpon>SymbolViewTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ControlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -165,11 +175,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\ConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ConnectorDot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\RailroadDocumentView.xaml">
+    <Page Include="View\DocumentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

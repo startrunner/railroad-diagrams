@@ -13,8 +13,6 @@ namespace RailroadDiagrams.DataModels.Mock
 
 
       Random random = new Random(DateTime.Now.GetHashCode());
-      MockSymbolEditorProperties mSymbolEditorProperties = new MockSymbolEditorProperties();
-
 
       public SymbolData Mock()
       {
@@ -30,7 +28,9 @@ namespace RailroadDiagrams.DataModels.Mock
             rt.Text = NonTerminalNames[random.Next(NonTerminalNames.Length)];
          }
 
-         rt.EditorProperties = mSymbolEditorProperties.Mock();
+         rt.X = random.Next(1500);
+         rt.Y = random.Next(1500);
+
 
          return rt;
       }
