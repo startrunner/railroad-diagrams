@@ -15,20 +15,26 @@ namespace RailroadDiagrams.App.Model
          var data = new SheetData() { ID = ++this.Data.LatestSheetID, Name = $"Sheet {this.Data.LatestSheetID + 1}" };
          this.Data.Sheets.Add(data);
 
-         return new Sheet(data);
+         return Sheet.Of(data);
       }
 
       public void SwitchToSheet(int id)
       {
          this.Data.OpenSheetID = id;
-         OpenSheet = new Sheet(this.Data.Sheets.Where(x => x.ID == id).FirstOrDefault());
+         OpenSheet = Sheet.Of(this.Data.Sheets.Where(x => x.ID == id).FirstOrDefault());
       }
 
       public Sheet OpenSheet { get; private set; }
 
-      public Document(DocumentData data) : base(data)
+      private Document(DocumentData data) : base(data)
       {
-         this.OpenSheet = new Sheet(data.Sheets.Where(x => x.ID == data.OpenSheetID).FirstOrDefault());
+         this.OpenSheet = Sheet.Of(data.Sheets.Where(x => x.ID == data.OpenSheetID).FirstOrDefault());
+      }
+
+      public static Document Of(DocumentData data)
+      {
+         data.LogicUnit = data.LogicUnit as Document ?? new Document(data);
+         return data.LogicUnit as Document;
       }
    }
 }

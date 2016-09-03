@@ -13,15 +13,6 @@ namespace RailroadDiagrams.App.Model
       Dictionary<int, ConnectionPointInfo> connectionPointInfoOf { get; set; }
         = new Dictionary<int, ConnectionPointInfo>();
 
-      public Sheet(SheetData data) : base(data)
-      {
-         foreach (var sData in data.Symbols)
-         {
-            Symbols.Add(new Symbol(sData));
-            RegisterConnectionPointInfo(sData);
-         }
-      }
-
       public HashSet<Symbol> Symbols { get; set; } = new HashSet<Symbol>();
 
       public bool TryCreateConnection(int point1ID, int point2ID, out ConnectionData result)
@@ -103,6 +94,21 @@ namespace RailroadDiagrams.App.Model
             OwnerID = sData.ID,
             Type = ConnectionPointType.Rightside
          };
+      }
+
+      private Sheet(SheetData data) : base(data)
+      {
+         foreach (var sData in data.Symbols)
+         {
+            Symbols.Add(Symbol.Of(sData));
+            RegisterConnectionPointInfo(sData);
+         }
+      }
+
+      public static Sheet Of(SheetData data)
+      {
+         data.LogicUnit = data.LogicUnit as Sheet ?? new Sheet(data);
+         return data.LogicUnit as Sheet;
       }
    }
 }

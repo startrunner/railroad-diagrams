@@ -27,7 +27,7 @@ namespace RailroadDiagrams.App.ViewModel
 
          foreach (var sheetData in model.Data.Sheets)
          {
-            RegisterSheet(new SheetViewModel(new Sheet(sheetData)));
+            RegisterSheet(new SheetViewModel(Sheet.Of(sheetData)));
          }
       }
 

@@ -22,7 +22,7 @@ namespace RailroadDiagrams.App.ViewModel
          this.model = model;
          foreach(var point in model.Data.Points)
          {
-            var pointModel = new CurvePolygonPoint(point);
+            var pointModel = CurvePolygonPoint.Of(point);
             var vm = new CurvePolygonPointViewModel(pointModel);
             Points.Add(vm);
          }

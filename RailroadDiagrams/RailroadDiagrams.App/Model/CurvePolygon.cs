@@ -9,8 +9,14 @@ namespace RailroadDiagrams.App.Model
 {
    class CurvePolygon : ModelBase<CurvePolygonData>
    {
-      public CurvePolygon(CurvePolygonData data) : base(data)
+      private CurvePolygon(CurvePolygonData data) : base(data)
       {
+      }
+
+      public static CurvePolygon Of (CurvePolygonData data)
+      {
+         data.LogicUnit = data.LogicUnit as CurvePolygon ?? new CurvePolygon(data);
+         return data.LogicUnit as CurvePolygon;
       }
    }
 }

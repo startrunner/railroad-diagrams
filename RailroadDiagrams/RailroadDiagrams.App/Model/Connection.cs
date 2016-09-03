@@ -9,8 +9,14 @@ namespace RailroadDiagrams.App.Model
 {
    class Connection : ModelBase<ConnectionData>
    {
-      public Connection(ConnectionData data) : base(data)
+      private Connection(ConnectionData data) : base(data)
       {
+      }
+
+      public static Connection Of(ConnectionData data)
+      {
+         data.LogicUnit=data.LogicUnit as Connection ?? new Connection(data);
+         return data.LogicUnit as Connection;
       }
    }
 }

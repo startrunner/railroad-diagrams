@@ -25,7 +25,7 @@ namespace RailroadDiagrams.App.Model
       {
          get
          {
-            return new Sheet(OpenDocument.Data.Sheets.Where(x => x.ID == OpenDocument.Data.OpenSheetID).First());
+            return Sheet.Of(OpenDocument.Data.Sheets.Where(x => x.ID == OpenDocument.Data.OpenSheetID).First());
          }
       }
 
@@ -38,7 +38,7 @@ namespace RailroadDiagrams.App.Model
 
          string json = File.ReadAllText(dialog.FileName);
          DocumentData data = JsonConvert.DeserializeObject<DocumentData>(json);
-         OpenDocument = new Document(data);
+         OpenDocument = Document.Of(data);
          FileLocation = dialog.FileName;
          OpenDocumentChanged?.Invoke(this, new EventArgs());
       }

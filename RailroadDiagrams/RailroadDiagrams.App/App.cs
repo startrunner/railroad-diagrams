@@ -24,7 +24,7 @@ namespace RailroadDiagrams.App
       public App() : base()
       {
          DocumentData data = new MockDocument().Mock();
-         Document document = new Document(data);
+         Document document = Document.Of(data);
          DocumentViewModel vm = new DocumentViewModel(document);
 
          context = new ApplicationContext()

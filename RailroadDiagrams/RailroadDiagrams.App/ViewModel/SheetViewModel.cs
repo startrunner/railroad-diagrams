@@ -32,13 +32,13 @@ namespace RailroadDiagrams.App.ViewModel
          {
             foreach (var symbolData in model.Data.Symbols)
             {
-               var symbol = new SymbolViewModel(new Symbol(symbolData));
+               var symbol = new SymbolViewModel(Symbol.Of(symbolData));
                Symbols.Add(symbol);
             }
 
             foreach(var connectionData in model.Data.Connections)
             {
-               var conn = new ConnectionViewModel(new Connection(connectionData));
+               var conn = new ConnectionViewModel(Connection.Of(connectionData));
                AssociateConnectionPoints(conn);
                Connections.Add(conn);
             }
@@ -88,7 +88,7 @@ namespace RailroadDiagrams.App.ViewModel
          ConnectionData result = null;
          if (!model.TryCreateConnection(connectorIds.Item1, connectorIds.Item2, out result)) return;
 
-         var rModel = new Connection(result);
+         var rModel = Connection.Of(result);
          var vm = new ConnectionViewModel(rModel);
          AssociateConnectionPoints(vm);
          Connections.Add(vm);
