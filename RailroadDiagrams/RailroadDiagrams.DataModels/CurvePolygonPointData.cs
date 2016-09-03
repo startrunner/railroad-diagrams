@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RailroadDiagrams.DataModels
 {
-   public class CurvePolygonPointData
+   public class CurvePolygonPointData:DataModelBase
    {
       public int ID { get; set; }
       public double XScale { get; set; }

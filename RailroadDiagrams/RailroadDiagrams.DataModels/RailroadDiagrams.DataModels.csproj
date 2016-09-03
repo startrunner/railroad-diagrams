@@ -49,11 +49,11 @@
     <Compile Include="ConnectionData.cs" />
     <Compile Include="CurvePolygonData.cs" />
     <Compile Include="CurvePolygonPointData.cs" />
+    <Compile Include="DataModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DocumentData.cs" />
     <Compile Include="SheetData.cs" />
     <Compile Include="SymbolData.cs" />
-    <Compile Include="SymbolEditorPropertiesData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

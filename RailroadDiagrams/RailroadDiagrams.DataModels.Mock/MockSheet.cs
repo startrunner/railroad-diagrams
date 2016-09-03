@@ -16,8 +16,8 @@ namespace RailroadDiagrams.DataModels.Mock
       {
          SheetData rt = new SheetData();
 
-         int nos = 10 + rand.Next(12);
-         for(int i=0;i<nos;i++)
+         int symbolCount = 10 + rand.Next(12);
+         for(int i=0;i<symbolCount;i++)
          {
             var symbol = mSymbol.Mock();
             symbol.ID = ++rt.LatestSymbolID;

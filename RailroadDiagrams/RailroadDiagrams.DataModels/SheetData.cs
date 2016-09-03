@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RailroadDiagrams.DataModels
 {
    [DataContract]
-   public class SheetData
+   public class SheetData:DataModelBase
    {
       [DataMember(Name="id")]
       public int ID { get; set; }

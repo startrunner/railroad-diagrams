@@ -9,7 +9,7 @@ using System.Windows;
 namespace RailroadDiagrams.DataModels
 {
    [DataContract]
-   public class CurvePolygonData
+   public class CurvePolygonData:DataModelBase
    {
       [DataMember(Name = "points")]
       public List<CurvePolygonPointData> Points { get; set; } = new List<CurvePolygonPointData>();
