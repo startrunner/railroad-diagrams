@@ -23,7 +23,7 @@ namespace RailroadDiagrams.App.ViewModel
 
          foreach(var point in model.Data.CurvePolygon.Points)
          {
-            
+            CurvePolygon.Add(new CurvePolygonPointViewModel(CurvePolygonPoint.Of(point)));
          }
       }
 
@@ -33,7 +33,9 @@ namespace RailroadDiagrams.App.ViewModel
       public int ID { get { return model.Data.ID; } }
       public int StartID { get { return model.Data.StartID; } }
       public int EndID { get { return model.Data.EndID; } }
-      public ObservableCollection<Point> CurvePolygon { get; private set; } = new ObservableCollection<Point>();
+      public ObservableCollection<CurvePolygonPointViewModel> CurvePolygon { get; private set; } = new ObservableCollection<CurvePolygonPointViewModel>();
+
+      public ConnectionViewModel ThisViewModel { get { return this; } set { } }
 
       public Point StartPosition
       {

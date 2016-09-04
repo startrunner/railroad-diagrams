@@ -23,6 +23,7 @@ namespace RailroadDiagrams.App.View
       public ConnectionView()
       {
          InitializeComponent();
+         ;
       }
 
       public static readonly DependencyProperty StartPositionProperty = DependencyProperty.Register(nameof(StartPosition), typeof(Point), typeof(ConnectionView), new PropertyMetadata(new Point(), StartPositionValueChanged));
@@ -68,6 +69,11 @@ namespace RailroadDiagrams.App.View
          Margin = new Thickness(minX, minY, 0, 0);
          Width = width;
          Height = height;
+      }
+
+      private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+      {
+         ;
       }
    }
 }

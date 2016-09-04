@@ -6,11 +6,27 @@
              xmlns:local="clr-namespace:RailroadDiagrams.App.View"
              xmlns:cw="clr-namespace:AlexIvanov.CommandWrappers;assembly=CommandWrappers.Win32"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
+             d:DesignHeight="300" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top"
+             d:DataContext="{Binding Source={DynamicResource Locator}, Path=Connection}" Loaded="UserControl_Loaded" Name="Control">
  <Grid>
-  <Canvas Background="#33B959F0"/>
-  <ItemsControl ItemsSource="{Binding CurvePolygon}">
-   
+  <Border BorderBrush="red" Background="#33800080" BorderThickness=".0"/>
+
+  <Grid>
+   <ItemsControl ItemsSource="{Binding CurvePolygon}">
+   <ItemsControl.ItemTemplate>
+    <DataTemplate>
+     <local:CurvePolygonPointView ConnectionStartPosition="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                  ConnectionEndPosition="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                  XScale="{Binding XScale, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                  YScale="{Binding YScale,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+   </ItemsControl.ItemTemplate>
+   <ItemsControl.ItemsPanel>
+    <ItemsPanelTemplate>
+     <Canvas/>
+    </ItemsPanelTemplate>
+   </ItemsControl.ItemsPanel>
   </ItemsControl>
+  </Grid>
  </Grid>
 </UserControl>

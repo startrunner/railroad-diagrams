@@ -54,6 +54,8 @@ namespace RailroadDiagrams.App.ViewModel
       public ObservableCollection<ConnectionViewModel> Connections { get; private set; } =
          new ObservableCollection<ConnectionViewModel>();
 
+      public SheetViewModel ThisViewModel { get { return this; } }
+
       public string Name
       {
          get { return model != null ? model.Data.Name : "???"; }

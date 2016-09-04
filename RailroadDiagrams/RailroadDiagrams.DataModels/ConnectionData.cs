@@ -19,7 +19,7 @@ namespace RailroadDiagrams.DataModels
       [DataMember(Name = "endId")]
       public int EndID { get; set; }
       
-      [DataMember(Name ="curePoly")]
+      [DataMember(Name ="curvePoly")]
       public CurvePolygonData CurvePolygon { get; set; }
    }
 }

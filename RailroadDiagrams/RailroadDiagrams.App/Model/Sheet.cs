@@ -61,9 +61,11 @@ namespace RailroadDiagrams.App.Model
          };
 
          var curvePolygon = new CurvePolygonData();
-         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 1.0, 1.0));
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.7, 0.8));
          curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.5, 0.5));
-         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.0, 0.0));
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.1, 0.3));
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.9, 0.9));
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.1, 0.1));
 
          result.CurvePolygon = curvePolygon;
 
