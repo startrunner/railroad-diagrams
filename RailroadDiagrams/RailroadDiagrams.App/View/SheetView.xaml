@@ -34,6 +34,20 @@
    
    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
     <Grid>
+     <ItemsControl ItemsSource="{Binding Connections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+      <ItemsControl.ItemsPanel>
+       <ItemsPanelTemplate>
+        <Grid/>
+       </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <local:ConnectionView StartPosition="{Binding StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              EndPosition="{Binding EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+     
      <ItemsControl Name="xPanelSymbols" ItemsSource="{Binding Symbols}">
       <ItemsControl.ItemsPanel>
        <ItemsPanelTemplate>
@@ -54,19 +68,7 @@
        </DataTemplate>
       </ItemsControl.ItemTemplate>
      </ItemsControl>
-     <ItemsControl ItemsSource="{Binding Connections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-      <ItemsControl.ItemsPanel>
-       <ItemsPanelTemplate>
-        <Grid/>
-       </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-      <ItemsControl.ItemTemplate>
-       <DataTemplate>
-        <local:ConnectionView StartPosition="{Binding StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                              EndPosition="{Binding EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-       </DataTemplate>
-      </ItemsControl.ItemTemplate>
-     </ItemsControl>
+     
     </Grid>
    </ScrollViewer>
 

@@ -22,6 +22,9 @@ namespace RailroadDiagrams.App.View
    /// </summary>
    public partial class CurvePolygonPointView : UserControl
    {
+      double width=0, heigth=0;
+      Point start, end;
+
       private static Random rand = new Random(DateTime.Now.ToString().GetHashCode());
 
       public CurvePolygonPointView()
@@ -37,6 +40,7 @@ namespace RailroadDiagrams.App.View
       public static readonly DependencyProperty ConnectionEndPositionProperty = DependencyProperty.Register(nameof(ConnectionEndPosition), typeof(Point), typeof(CurvePolygonPointView), new PropertyMetadata(new Point(), ConnectionEndPositionValueChanged));
       public static readonly DependencyProperty XScaleProperty = DependencyProperty.Register(nameof(XScale), typeof(double), typeof(CurvePolygonPointView), new PropertyMetadata(0.0, XScaleValueChanged));
       public static readonly DependencyProperty YScaleProperty = DependencyProperty.Register(nameof(YScale), typeof(double), typeof(CurvePolygonPointView), new PropertyMetadata(0.0, YScaleValueChanged));
+      public static readonly DependencyProperty UpdateXYScalesCommandProperty = DependencyProperty.Register(nameof(UpdateXYScalesCommand), typeof(ICommand), typeof(CurvePolygonPointView), new PropertyMetadata(null));
 
       public Point ConnectionStartPosition
       {
@@ -58,16 +62,29 @@ namespace RailroadDiagrams.App.View
          get { return (double)GetValue(YScaleProperty); }
          set { SetValue(YScaleProperty, value); }
       }
+      public ICommand UpdateXYScalesCommand
+      {
+         get { return GetValue(UpdateXYScalesCommandProperty) as ICommand; }
+         set { SetValue(UpdateXYScalesCommandProperty, value); }
+      }
 
 
       private static void ConnnectionStartPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
       {
          var view = d as CurvePolygonPointView;
+
+         view.start = (Point)e.NewValue;
+         view.UpdateXYDimensions();
+
          view?.UpdatePosition();
       }
       private static void ConnectionEndPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
       {
          var view = d as CurvePolygonPointView;
+
+         view.end = (Point)e.NewValue;
+         view.UpdateXYDimensions();
+
          view?.UpdatePosition();
       }
       private static void XScaleValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -81,14 +98,14 @@ namespace RailroadDiagrams.App.View
          view?.UpdatePosition();
       }
 
+      private void UpdateXYDimensions()
+      {
+         width = Math.Abs(start.X - end.X);
+         heigth = Math.Abs(start.Y - end.Y);
+      }
+
       private void UpdatePosition()
       {
-         var start = ConnectionStartPosition;
-         var end = ConnectionEndPosition;
-
-         double width = Math.Abs(start.X - end.X);
-         double heigth = Math.Abs(start.Y - end.Y);
-
          double x = width * XScale;
          double y = heigth * YScale;
 
@@ -102,6 +119,27 @@ namespace RailroadDiagrams.App.View
          }
 
          Margin = new Thickness(x, y, Margin.Right, Margin.Bottom);
+      }
+
+      private void xThumb_DragDelta(Object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+      {
+         double x = Margin.Left;
+         double y = Margin.Top;
+
+         x += e.HorizontalChange;
+         y += e.VerticalChange;
+
+         if (start.X > end.X)
+         {
+            x = width - x;
+         }
+         if (start.Y > end.Y)
+         {
+            y = heigth - y;
+         }
+
+         XScale = x / width;
+         YScale = y / heigth;
       }
    }
 }

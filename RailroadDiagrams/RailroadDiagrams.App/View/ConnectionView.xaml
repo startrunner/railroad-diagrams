@@ -4,22 +4,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RailroadDiagrams.App.View"
-             xmlns:cw="clr-namespace:AlexIvanov.CommandWrappers;assembly=CommandWrappers.Win32"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top"
              d:DataContext="{Binding Source={DynamicResource Locator}, Path=Connection}" Loaded="UserControl_Loaded" Name="Control">
  <Grid>
   <Border BorderBrush="red" Background="#33800080" BorderThickness=".0"/>
 
+  <local:RoundedCornersPolygon Stretch="Fill" Points="10,50 180,50 180,150 10,150" StrokeThickness="2" Stroke="Red" ArcRoundness="25" IsEnabled="False" IsClosed="True">
+
+  </local:RoundedCornersPolygon>
+  
+  <!--Path Name="xPath" RenderTransformOrigin="0.5, 0.5" Stretch="Fill" Stroke="Black" StrokeThickness="2">
+   <Path.Data>
+    <PathGeometry>
+     <PathGeometry.Figures>
+      <PathFigureCollection>
+       <PathFigure StartPoint="0, 0">
+        <PathFigure.Segments>
+         <PathSegmentCollection>
+          <LineSegment Point=".3, 0" IsSmoothJoin="True"/>
+          <BezierSegment Point1=".3, 0" Point2="3, 7" Point3="9.7, 10" IsSmoothJoin="True"/>
+          <LineSegment Point="10,10" IsSmoothJoin="True"/>
+         </PathSegmentCollection>
+        </PathFigure.Segments>
+       </PathFigure>
+      </PathFigureCollection>
+     </PathGeometry.Figures>
+    </PathGeometry>
+   </Path.Data>
+  </-->
+
   <Grid>
    <ItemsControl ItemsSource="{Binding CurvePolygon}">
    <ItemsControl.ItemTemplate>
     <DataTemplate>
-     <local:CurvePolygonPointView ConnectionStartPosition="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+      <local:CurvePolygonPointView ConnectionStartPosition="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                   ConnectionEndPosition="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                  XScale="{Binding XScale, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                  YScale="{Binding YScale,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-    </DataTemplate>
+                                  XScale="{Binding XScale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  YScale="{Binding YScale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+     </DataTemplate>
    </ItemsControl.ItemTemplate>
    <ItemsControl.ItemsPanel>
     <ItemsPanelTemplate>

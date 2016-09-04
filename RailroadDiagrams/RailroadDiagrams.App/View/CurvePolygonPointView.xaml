@@ -9,7 +9,7 @@
              Height="0" 
              HorizontalAlignment="Left" VerticalAlignment="Top">
  <Grid Width="12" Height="12" Margin="-6">
-  <Thumb Name="xThumb" Background="Red">
+  <Thumb Name="xThumb" Background="Red" DragDelta="xThumb_DragDelta">
    <Thumb.Style>
     <Style TargetType="Thumb">
      <Setter Property="Template">

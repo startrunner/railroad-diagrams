@@ -42,10 +42,6 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommandWrappers.Win32, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ICommandWrappers.1.0.3\lib\CommandWrappers.Win32.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
@@ -137,6 +133,7 @@
     <Compile Include="View\DocumentView.xaml.cs">
       <DependentUpon>DocumentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\RoundedCornersPolygon.cs" />
     <Compile Include="View\SheetView.xaml.cs">
       <DependentUpon>SheetView.xaml</DependentUpon>
     </Compile>

@@ -44,12 +44,16 @@ namespace RailroadDiagrams.App.View
 
       static void EndPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
       {
-         (d as ConnectionView)?.UpdatePosition();
+         var view = d as ConnectionView;
+         view?.UpdatePosition();
+         view?.UpdatePathTransform();
       }
 
       static void StartPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
       {
-         (d as ConnectionView)?.UpdatePosition();
+         var view = d as ConnectionView;
+         view?.UpdatePosition();
+         view?.UpdatePathTransform();
       }
 
       private void UpdatePosition()
@@ -69,6 +73,12 @@ namespace RailroadDiagrams.App.View
          Margin = new Thickness(minX, minY, 0, 0);
          Width = width;
          Height = height;
+      }
+
+      private void UpdatePathTransform()
+      {
+         var start = StartPosition;
+         var end = EndPosition;
       }
 
       private void UserControl_Loaded(Object sender, RoutedEventArgs e)
