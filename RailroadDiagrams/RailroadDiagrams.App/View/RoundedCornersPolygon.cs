@@ -14,22 +14,39 @@ namespace RailroadDiagrams.App.View
 {
    public class RoundedCornersPolygon : Shape
    {
+      public static readonly DependencyProperty PointsProperty = DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(RoundedCornersPolygon), new PropertyMetadata(new PointCollection(), PointsValueChanged));
+
+      private static void PointsValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+      {
+         var view = d as RoundedCornersPolygon;
+         if (view == null) return;
+
+         var oldValue = e.OldValue as PointCollection;
+         var newValue = e.NewValue as PointCollection;
+
+         if(oldValue!=null &&  !oldValue.IsFrozen)
+         {
+            oldValue.Changed -= view.Points_Changed;
+         }
+         if(newValue!=null && !newValue.IsFrozen)
+         {
+            newValue.Changed += view.Points_Changed;
+         }
+
+         view.RedrawShape();
+      }
+
       private readonly Path _path;
 
       #region Properties 
-
-      private PointCollection _points;
+      
       /// <summary>
       /// Gets or sets a collection that contains the points of the polygon.
       /// </summary>
       public PointCollection Points
       {
-         get { return _points; }
-         set
-         {
-            _points = value;
-            RedrawShape();
-         }
+         get { return GetValue(PointsProperty) as PointCollection; }
+         set { SetValue(PointsProperty, value); }
       }
 
       private bool _isClosed;
@@ -85,7 +102,10 @@ namespace RailroadDiagrams.App.View
       {
          var geometry = new PathGeometry();
          geometry.Figures.Add(new PathFigure());
-         _path = new Path { Data = geometry };
+         _path = new Path
+         {
+            Data = geometry
+         };
          Points = new PointCollection();
          Points.Changed += Points_Changed;
       }

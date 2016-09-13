@@ -53,21 +53,8 @@
   </Grid>
 
   <Grid Grid.Row="1">
-   <Grid  HorizontalAlignment="Left" Margin="-20,0,0,0">
-    <Grid HorizontalAlignment="Left" Width="20" Height="10" Name="xGridLeftConnectorSet">
-     <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Name="xAnchorLeft"/>
-     <local:ConnectorDot Width="10" HorizontalAlignment="Left" x:Name="xConnectorDotLeft"/>
-     <Rectangle Width="10" HorizontalAlignment="Right" Height="2" Fill="Black"/>
-    </Grid>
-   </Grid>
-
-   <Grid HorizontalAlignment="Right" Margin="0,0,-20,0" Width="20">
-    <Grid HorizontalAlignment="Right" Width="20" Height="10" Name="xGridRightConnectorSet">
-     <Rectangle HorizontalAlignment="Left"  Width="10" Height="2" Fill="Black"/>
-     <Grid HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center" Name="xAnchorRight"/>
-     <local:ConnectorDot Width="10" HorizontalAlignment="Right" x:Name="xConnectorDotRight"/>
-    </Grid>
-   </Grid>
+   <local:ConnectorDot HorizontalAlignment="Left" x:Name="xConnectorDotLeft"/>
+   <local:ConnectorDot HorizontalAlignment="Right" x:Name="xConnectorDotRight"/>
   </Grid>
  </Grid>
 </UserControl>

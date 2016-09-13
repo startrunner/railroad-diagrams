@@ -26,6 +26,11 @@ namespace RailroadDiagrams.App.ViewModel
          get { return model.Data.ID; }
       }
 
+      public int Number
+      {
+         get { return model.Data.Number; }
+      }
+
       public double XScale
       {
          get { return model.Data.XScale; }

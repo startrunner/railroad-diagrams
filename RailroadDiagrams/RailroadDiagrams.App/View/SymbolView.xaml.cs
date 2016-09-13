@@ -164,7 +164,10 @@ namespace RailroadDiagrams.App.View
       }
 
       private void xThumb_MouseDoubleClick(Object sender, MouseButtonEventArgs e) => EnableEditTextMode();
-      private void xTextBoxText_TextChanged(Object sender, TextChangedEventArgs e) => UpdateConnectionPointPositions();
+      private void xTextBoxText_TextChanged(Object sender, TextChangedEventArgs e)
+      {
+         UpdateConnectionPointPositions();
+      }
       private void xTextBoxText_LostFocus(Object sender, RoutedEventArgs e) => DisableEditTextMode();
       private void xMenuItemIsTerminal_Click(Object sender, RoutedEventArgs e) => IsTerminal = !IsTerminal;
 
@@ -177,8 +180,10 @@ namespace RailroadDiagrams.App.View
       #region Methods
       private void UpdateConnectionPointPositions()
       {
-         var leftRelativePos = xAnchorLeft.RelativePositionTo(this);
-         var rightRelativePos = xAnchorRight.RelativePositionTo(this);
+         this.UpdateLayout();
+
+         var leftRelativePos = xConnectorDotLeft.RelativePositionTo(this);
+         var rightRelativePos = xConnectorDotRight.RelativePositionTo(this);
          var leftPos= new Point(Position.X + leftRelativePos.X, Position.Y + leftRelativePos.Y);
          var rightPos= new Point(Position.X + rightRelativePos.X, Position.Y + rightRelativePos.Y);
 

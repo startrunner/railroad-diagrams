@@ -10,45 +10,12 @@
              Name="xControl">
  <Grid>
 
-  <Grid.Background>
-   <VisualBrush TileMode="Tile" Stretch="None"  Viewport="0,0,10,10" ViewportUnits="Absolute">
-    <VisualBrush.Visual>
-     <Border BorderThickness=".5" BorderBrush="Gray"  Background="White" Width="10" Height="10"></Border>
-    </VisualBrush.Visual>
-   </VisualBrush>
-  </Grid.Background>
-  <Grid.RowDefinitions>
-   <RowDefinition Height="32"/>
-   <RowDefinition/>
-  </Grid.RowDefinitions>
-
-  <StackPanel Orientation="Horizontal" Background="#AAFFFFFF">
-   <TextBlock Text="ID: "/>
-   <TextBlock Text="{Binding ID, UpdateSourceTrigger=PropertyChanged}"/>
-   <TextBlock Margin="8,0,0,0" Text="Name: "/>
-   <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-   <TextBlock Name="xTextBlockMousePos" Text="__" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-  </StackPanel>
-
   <Grid Grid.Row="1" MouseMove="Grid_MouseMove">
-   
+
    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-    <Grid>
-     <ItemsControl ItemsSource="{Binding Connections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-      <ItemsControl.ItemsPanel>
-       <ItemsPanelTemplate>
-        <Grid/>
-       </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-      <ItemsControl.ItemTemplate>
-       <DataTemplate>
-        <local:ConnectionView StartPosition="{Binding StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                              EndPosition="{Binding EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-       </DataTemplate>
-      </ItemsControl.ItemTemplate>
-     </ItemsControl>
-     
-     <ItemsControl Name="xPanelSymbols" ItemsSource="{Binding Symbols}">
+    <Grid Background="Yellow" Margin="50">
+     <local:DragScroll/>
+     <ItemsControl x:Name="xPanelSymbols" ItemsSource="{Binding Symbols}">
       <ItemsControl.ItemsPanel>
        <ItemsPanelTemplate>
         <Grid/>
@@ -63,31 +30,28 @@
                          IsTerminal="{Binding IsTerminal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          LeftConnectionPointID="{Binding LeftConnectionPointID}"
                          RightConnectionPointID="{Binding RightConenctionPointID}"
-                         CreateConnectionCommand="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CreateConnection}"
-                         UpdateConnectionPointPositionCommand="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.UpdateConnectorPosition}"/>
+                         CreateConnectionCommand="{Binding DataContext.CreateConnection, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                         UpdateConnectionPointPositionCommand="{Binding DataContext.UpdateConnectorPosition, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
        </DataTemplate>
       </ItemsControl.ItemTemplate>
      </ItemsControl>
-     
+
+     <ItemsControl ItemsSource="{Binding Connections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+      <ItemsControl.ItemsPanel>
+       <ItemsPanelTemplate>
+        <Grid/>
+       </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <local:ConnectionView StartPosition="{Binding StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              EndPosition="{Binding EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+
     </Grid>
    </ScrollViewer>
-
-   <Grid>
-    <ListView VerticalAlignment="Top" HorizontalAlignment="Left" Background="{x:Null}" ItemsSource="{Binding Connections}">
-     <ListView.ItemTemplate>
-      <DataTemplate>
-       <StackPanel Orientation="Vertical" Margin="0,0,0,10">
-        <TextBlock Text="{Binding ID}"/>
-        <TextBlock Text="{Binding StartID}"/>
-        <TextBlock Text="{Binding EndID}"/>
-        <TextBlock Text="{Binding StartPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Text="{Binding EndPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-       </StackPanel>
-      </DataTemplate>
-     </ListView.ItemTemplate>
-    </ListView>
-   </Grid>
-   
   </Grid>
  </Grid>
 </UserControl>

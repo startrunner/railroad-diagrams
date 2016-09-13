@@ -28,6 +28,11 @@ namespace RailroadDiagrams.App.Model
             result = null;
             return false;
          }
+         if(info1.OwnerID==info2.OwnerID)
+         {
+            result = null;
+            return false;
+         }
 
          int startID, endID;
 
@@ -61,11 +66,11 @@ namespace RailroadDiagrams.App.Model
          };
 
          var curvePolygon = new CurvePolygonData();
-         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.7, 0.8));
-         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.5, 0.5));
-         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.1, 0.3));
-         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.9, 0.9));
-         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.1, 0.1));
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.1, 0.0) { Number = 1 });
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.2, 0.3) { Number = 2 });
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.5, 0.5) { Number = 3 });
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.8, 0.7) { Number = 4 });
+         curvePolygon.Points.Add(new CurvePolygonPointData(++curvePolygon.LatestPointID, 0.9, 1.0) { Number = 5 });
 
          result.CurvePolygon = curvePolygon;
 

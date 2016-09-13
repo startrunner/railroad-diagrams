@@ -19,6 +19,9 @@ namespace RailroadDiagrams.DataModels
       [DataMember(Name ="yScale")]
       public double YScale { get; set; }
 
+      [DataMember (Name ="number")]
+      public int Number { get; set; }
+
       public CurvePolygonPointData() : this(-1, 0, 0) { }
       public CurvePolygonPointData(double xScale, double yScale) : this(-1, xScale, yScale) { }
       public CurvePolygonPointData(int id, double xScale, double yScale)

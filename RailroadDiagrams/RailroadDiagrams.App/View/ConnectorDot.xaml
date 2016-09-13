@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RailroadDiagrams.App.View"
              mc:Ignorable="d" 
-             d:DesignHeight="13.208" d:DesignWidth="13.125" Name="xControl" Foreground="Gray">
- <Grid ClipToBounds="False" Panel.ZIndex="1000000">
+             d:DesignHeight="13.208" d:DesignWidth="13.125" Name="xControl" Foreground="Gray"
+             Width="0"
+             Height="0">
+ <Grid ClipToBounds="False" Panel.ZIndex="1000000" Margin="-5" Name="xLayoutRoot">
   <Canvas Name="xLineHost" HorizontalAlignment="Center" VerticalAlignment="Center" Width="0" Height="0"/>
   <Ellipse Name="xEllipseDot" Fill="{Binding ElementName=xControl, Path=Foreground}"/>
   <Thumb Name="xConnThumb" Background="Transparent" DragDelta="xConnThumb_DragDelta" DragCompleted="xConnThumb_DragCompleted" MouseEnter="xConnThumb_MouseEnter" MouseLeave="xConnThumb_MouseLeave">

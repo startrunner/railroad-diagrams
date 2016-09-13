@@ -12,35 +12,62 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using RandomColorGenerator;
 using System.Diagnostics;
+using MouseKeyboardActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor;
 
 namespace RailroadDiagrams.App.View
 {
    /// <summary>
    /// Interaction logic for CurvePolygonPointView.xaml
    /// </summary>
-   public partial class CurvePolygonPointView : UserControl
+   public partial class CurvePolygonPointView : UserControl, IMouseProximityActivatable
    {
+      const double ActivateDistanceSQ = 10000;
+
+      static HashSet<CurvePolygonPointView> CurrentlyLoaded = new HashSet<CurvePolygonPointView>();
+
+      bool _isActivated=true;
       double width=0, heigth=0;
       Point start, end;
-
-      private static Random rand = new Random(DateTime.Now.ToString().GetHashCode());
 
       public CurvePolygonPointView()
       {
          InitializeComponent();
-         RandomColor.Seed(this.GetHashCode());
 
-         xThumb.Background = new SolidColorBrush(RandomColor.GetColor(ColorScheme.Random, Luminosity.Light));
-         ;
+         if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+         {
+            (this as IMouseProximityActivatable).IsActivated = true;
+         }
+         else
+         {
+            (this as IMouseProximityActivatable).IsActivated = false;
+            MouseProximityActivation.Register(this);
+         }
       }
-
+      
       public static readonly DependencyProperty ConnectionStartPositionProperty = DependencyProperty.Register(nameof(ConnectionStartPosition), typeof(Point), typeof(CurvePolygonPointView), new PropertyMetadata(new Point(), ConnnectionStartPositionValueChanged));
       public static readonly DependencyProperty ConnectionEndPositionProperty = DependencyProperty.Register(nameof(ConnectionEndPosition), typeof(Point), typeof(CurvePolygonPointView), new PropertyMetadata(new Point(), ConnectionEndPositionValueChanged));
       public static readonly DependencyProperty XScaleProperty = DependencyProperty.Register(nameof(XScale), typeof(double), typeof(CurvePolygonPointView), new PropertyMetadata(0.0, XScaleValueChanged));
       public static readonly DependencyProperty YScaleProperty = DependencyProperty.Register(nameof(YScale), typeof(double), typeof(CurvePolygonPointView), new PropertyMetadata(0.0, YScaleValueChanged));
       public static readonly DependencyProperty UpdateXYScalesCommandProperty = DependencyProperty.Register(nameof(UpdateXYScalesCommand), typeof(ICommand), typeof(CurvePolygonPointView), new PropertyMetadata(null));
+      public static readonly DependencyProperty DisplayPointSetProperty = DependencyProperty.Register(nameof(DisplayPointSet), typeof(CurvePolygonDisplayPointSet), typeof(CurvePolygonPointView), new PropertyMetadata(defaultValue: null));
+      public static readonly DependencyProperty PointNumberProperty = DependencyProperty.Register(nameof(PointNumber), typeof(int), typeof(CurvePolygonPointView), new PropertyMetadata(defaultValue: -1));
+
+      #region IRangeActivatable Properties
+      Double IMouseProximityActivatable.ActivationRangeSquared { get { return ActivateDistanceSQ; } }
+      Point IMouseProximityActivatable.ActivationRangeCenter { get { return PointToScreen(new Point()); } }
+      bool IMouseProximityActivatable.IsActivated
+      {
+         get { return _isActivated; }
+         set
+         {
+            if (_isActivated == value) return;
+            _isActivated = value;
+            this.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+         }
+      }
+      #endregion
 
       public Point ConnectionStartPosition
       {
@@ -67,7 +94,19 @@ namespace RailroadDiagrams.App.View
          get { return GetValue(UpdateXYScalesCommandProperty) as ICommand; }
          set { SetValue(UpdateXYScalesCommandProperty, value); }
       }
+      public CurvePolygonDisplayPointSet DisplayPointSet
+      {
+         get { return GetValue(DisplayPointSetProperty) as CurvePolygonDisplayPointSet; }
+         set { SetValue(DisplayPointSetProperty, value); }
+      }
+      public int PointNumber
+      {
+         get { return (int)GetValue(PointNumberProperty); }
+         set { SetValue(PointNumberProperty, value); }
+      }
 
+      private void OnLoaded(Object sender, RoutedEventArgs e) => CurrentlyLoaded.Add(this);
+      private void OnUnloaded(Object sender, RoutedEventArgs e) => CurrentlyLoaded.Remove(this);
 
       private static void ConnnectionStartPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
       {
@@ -118,7 +157,10 @@ namespace RailroadDiagrams.App.View
             y = heigth - y;
          }
 
+         this.DisplayPointSet?.UpdatePoint(PointNumber, x, y);
+
          Margin = new Thickness(x, y, Margin.Right, Margin.Bottom);
+         
       }
 
       private void xThumb_DragDelta(Object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -138,8 +180,16 @@ namespace RailroadDiagrams.App.View
             y = heigth - y;
          }
 
-         XScale = x / width;
-         YScale = y / heigth;
+
+         if (width != 0)
+         {
+            XScale = x / width;
+         }
+
+         if (heigth != 0)
+         {
+            YScale = y / heigth;
+         }
       }
    }
 }

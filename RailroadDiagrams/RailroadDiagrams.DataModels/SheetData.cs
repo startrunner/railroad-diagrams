@@ -30,5 +30,8 @@ namespace RailroadDiagrams.DataModels
 
       [DataMember(Name="connections")]
       public List<ConnectionData> Connections { get; set; } = new List<ConnectionData>();
+
+      [DataMember(Name ="alignmentGridUnitSize")]
+      public double AlignmentGridUnitSize { get; set; }
    }
 }

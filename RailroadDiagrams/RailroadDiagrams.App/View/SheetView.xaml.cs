@@ -29,7 +29,7 @@ namespace RailroadDiagrams.App.View
 
       private void Grid_MouseMove(Object sender, MouseEventArgs e)
       {
-         xTextBlockMousePos.Text = Mouse.GetPosition(xPanelSymbols).ToString();
+         
       }
    }
 }

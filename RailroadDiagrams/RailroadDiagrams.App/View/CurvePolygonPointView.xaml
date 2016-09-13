@@ -7,17 +7,20 @@
              mc:Ignorable="d" 
              Width="0"
              Height="0" 
-             HorizontalAlignment="Left" VerticalAlignment="Top">
+             HorizontalAlignment="Left" VerticalAlignment="Top"
+             d:DataContext="{Binding CurvePolygonPoint, Source={DynamicResource Locator}}"
+             ClipToBounds="False"
+             Loaded="OnLoaded" Unloaded="OnUnloaded">
  <Grid Width="12" Height="12" Margin="-6">
-  <Thumb Name="xThumb" Background="Red" DragDelta="xThumb_DragDelta">
+  <Ellipse Name="xBackground" Opacity="0.4" Fill="Purple"/>
+  <Thumb  Name="xThumb" Background="Transparent" DragDelta="xThumb_DragDelta" Cursor="SizeAll" >
    <Thumb.Style>
     <Style TargetType="Thumb">
      <Setter Property="Template">
       <Setter.Value>
        <ControlTemplate TargetType="Thumb">
-         <Border Background="{TemplateBinding Background}">
-         </Border>
-        </ControlTemplate>
+        <Border Background="Transparent"/>
+       </ControlTemplate>
       </Setter.Value>
      </Setter>
     </Style>

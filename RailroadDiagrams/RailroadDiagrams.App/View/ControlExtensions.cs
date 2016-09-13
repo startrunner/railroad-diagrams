@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace RailroadDiagrams.App.View
 {
    public static class ControlExtensions
    {
-      public static bool CheckIfMouseIsPhisicallyOver(this Control visual)
+      public static bool CheckIfMouseIsPhisicallyOver(this FrameworkElement visual)
       {
          return new Rect(0, 0, visual.ActualWidth, visual.ActualHeight).Contains(Mouse.GetPosition(visual));
       }
@@ -24,6 +25,7 @@ namespace RailroadDiagrams.App.View
             Point pos1 = control1.PointToScreen(new Point());
             Point pos2 = control2.PointToScreen(new Point());
             return new Point(pos1.X - pos2.X, pos1.Y - pos2.Y);
+
          }
          catch
          {

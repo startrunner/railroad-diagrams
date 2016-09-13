@@ -15,6 +15,7 @@ namespace RailroadDiagrams.DataModels.Mock
       public SheetData Mock()
       {
          SheetData rt = new SheetData();
+         rt.AlignmentGridUnitSize = 5;
 
          int symbolCount = 10 + rand.Next(12);
          for(int i=0;i<symbolCount;i++)
@@ -23,8 +24,13 @@ namespace RailroadDiagrams.DataModels.Mock
             symbol.ID = ++rt.LatestSymbolID;
             symbol.LeftConnectionPointID = ++rt.LatestConnectionPointID;
             symbol.RightConnectionPointID = ++rt.LatestConnectionPointID;
+
+            symbol.X -= symbol.X % rt.AlignmentGridUnitSize;
+            symbol.Y -= symbol.Y % rt.AlignmentGridUnitSize;
+
             rt.Symbols.Add(symbol);
          }
+
 
          return rt;
       }

@@ -14,10 +14,13 @@ namespace RailroadDiagrams.App.View
    /// <summary>
    /// Interaction logic for ConnectorDot.xaml
    /// </summary>
-   public partial class ConnectorDot : UserControl
+   public partial class ConnectorDot : UserControl,IMouseProximityActivatable
    {
+      const double ActivationRangeSq= 10000;
+
       #region Static Members
-      static readonly object staticLock = new object();
+      static readonly object StaticLock = new object();
+
       static readonly DropShadowEffect HoverEffect = new DropShadowEffect()
       {
          RenderingBias = RenderingBias.Quality,
@@ -27,10 +30,12 @@ namespace RailroadDiagrams.App.View
          BlurRadius = 10
       };
 
-      static ConnectorDot CurrentlyHoveredDot = null;
+      static ConnectorDot currentlyHoveredDot = null;
 
       static int idCounter = 0;
       #endregion
+
+      bool _isActivated = true;
 
       #region Static Events
       delegate void AnyDotDraggingHandler(ConnectorDot sender, DragDeltaEventArgs e);
@@ -66,17 +71,46 @@ namespace RailroadDiagrams.App.View
 
       #region Properties
       public int UniqueID { get; set; } = ++idCounter;
+
+      Double IMouseProximityActivatable.ActivationRangeSquared { get { return ActivationRangeSq; } }
+      Point IMouseProximityActivatable.ActivationRangeCenter { get { return PointToScreen(new Point()); } }
+
+      bool IMouseProximityActivatable.IsActivated
+      {
+         get { return _isActivated; }
+         set
+         {
+            _isActivated = value;
+
+            if (this.xConnThumb.IsDragging == false)
+            {
+               this.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+            }
+         }
+      }
+
+
       #endregion
 
       public ConnectorDot()
       {
          InitializeComponent();
          AnyDotDragging += OnAnyDotDragging;
+
+         if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+         {
+            (this as IMouseProximityActivatable).IsActivated = true;
+         }
+         else
+         {
+            (this as IMouseProximityActivatable).IsActivated = false;
+            MouseProximityActivation.Register(this);
+         }
       }
 
       private void OnAnyDotDragging(ConnectorDot that, DragDeltaEventArgs e)
       {
-         if (this.CheckIfMouseIsPhisicallyOver())
+         if (xLayoutRoot.CheckIfMouseIsPhisicallyOver())
          {
             this.EnterHoverMode();
          }
@@ -111,9 +145,9 @@ namespace RailroadDiagrams.App.View
       private void xConnThumb_DragCompleted(Object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
       {
          xLineHost.Children.Remove(connectionLine);
-         if (CurrentlyHoveredDot != null)
+         if (currentlyHoveredDot != null)
          {
-            var that = CurrentlyHoveredDot;
+            var that = currentlyHoveredDot;
             int thisID = this.UniqueID;
             int thatID = that.UniqueID;
 
@@ -125,6 +159,8 @@ namespace RailroadDiagrams.App.View
             //Debug.WriteLine($"Connecting {thisID} to {thatID}");
          }
 
+         (this as IMouseProximityActivatable).IsActivated = (this as IMouseProximityActivatable).IsActivated;
+
       }
 
       private void EnterHoverMode()
@@ -132,7 +168,7 @@ namespace RailroadDiagrams.App.View
          if (isInHoverMode) return;
 
          xEllipseDot.Effect = HoverEffect;
-         CurrentlyHoveredDot = this;
+         currentlyHoveredDot = this;
          isInHoverMode = true;
       }
 
@@ -141,11 +177,11 @@ namespace RailroadDiagrams.App.View
          if (!isInHoverMode) return;
 
          xEllipseDot.Effect = null;
-         lock (staticLock)
+         lock (StaticLock)
          {
-            if (CurrentlyHoveredDot == this)
+            if (currentlyHoveredDot == this)
             {
-               CurrentlyHoveredDot = null;
+               currentlyHoveredDot = null;
             }
          }
          isInHoverMode = false;

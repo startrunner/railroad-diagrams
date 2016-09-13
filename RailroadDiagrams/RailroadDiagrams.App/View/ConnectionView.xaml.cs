@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,10 @@ namespace RailroadDiagrams.App.View
       public ConnectionView()
       {
          InitializeComponent();
-         ;
       }
 
       public static readonly DependencyProperty StartPositionProperty = DependencyProperty.Register(nameof(StartPosition), typeof(Point), typeof(ConnectionView), new PropertyMetadata(new Point(), StartPositionValueChanged));
       public static readonly DependencyProperty EndPositionProperty = DependencyProperty.Register(nameof(EndPosition), typeof(Point), typeof(ConnectionView), new PropertyMetadata(new Point(), EndPositionValueChanged));
-      //public static readonly DependencyProperty 
 
       public Point StartPosition
       {
@@ -58,6 +57,7 @@ namespace RailroadDiagrams.App.View
 
       private void UpdatePosition()
       {
+         UpdateLayout();
          var startPos = StartPosition;
          var endPos = EndPosition;
 
@@ -81,9 +81,21 @@ namespace RailroadDiagrams.App.View
          var end = EndPosition;
       }
 
-      private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+      private void xDisplayPointSet_PointUpdated(Object sender, EventArgs e)
       {
-         ;
+         this.UpdateLayout();
+         var set=sender as CurvePolygonDisplayPointSet;
+         var start = StartPosition;
+         var end = EndPosition;
+
+         var points = new List<Point>();
+         points.Add(new Point(start.X < end.X ? 0 : ActualWidth, start.Y < end.Y ? 0 : ActualHeight));
+         points.AddRange(set.GetOrderedPoints());
+         points.Add(new Point(ActualWidth - points[0].X, ActualHeight - points[0].Y));
+
+         xConnectionPolygon.Points = new PointCollection(points);
+         
+         //xConnectionPolygon.UpdateLayout();
       }
    }
 }
