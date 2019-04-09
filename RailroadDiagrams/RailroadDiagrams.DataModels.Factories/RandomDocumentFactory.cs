@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RailroadDiagrams.DataModels.Mock
+namespace RailroadDiagrams.DataModels.Factories
 {
-   public class MockDocument : IMock<DocumentData>
+    public class RandomDocumentFactory : IFactory<DocumentData>
    {
       Random rand = new Random(DateTime.Now.GetHashCode());
-      MockSheet mSheet = new MockSheet();
+      RandomSheetFactory mSheet = new RandomSheetFactory();
 
-      public DocumentData Mock()
+      public DocumentData Create()
       {
          DocumentData rt = new DocumentData();
 
          int sCount = 3 + rand.Next(7);
          for(int i=0;i<sCount;i++)
          {
-            var sheet = mSheet.Mock();
+            var sheet = mSheet.Create();
             sheet.ID = ++rt.LatestSheetID;
             sheet.Name = $"Sheet {sheet.ID+1}";
             rt.Sheets.Add(sheet);

@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using RailroadDiagrams.DataModels;
 
-namespace RailroadDiagrams.DataModels.Mock
+namespace RailroadDiagrams.DataModels.Factories
 {
-   public class MockSheet : IMock<SheetData>
+   public class RandomSheetFactory : IFactory<SheetData>
    {
       Random rand = new Random(DateTime.Now.GetHashCode());
-      MockSymbol mSymbol = new MockSymbol();
+      RandomSymbolFactory mSymbol = new RandomSymbolFactory();
 
-      public SheetData Mock()
+      public SheetData Create()
       {
          SheetData rt = new SheetData();
          rt.AlignmentGridUnitSize = 5;
@@ -20,7 +20,7 @@ namespace RailroadDiagrams.DataModels.Mock
          int symbolCount = 10 + rand.Next(12);
          for(int i=0;i<symbolCount;i++)
          {
-            var symbol = mSymbol.Mock();
+            var symbol = mSymbol.Create();
             symbol.ID = ++rt.LatestSymbolID;
             symbol.LeftConnectionPointID = ++rt.LatestConnectionPointID;
             symbol.RightConnectionPointID = ++rt.LatestConnectionPointID;

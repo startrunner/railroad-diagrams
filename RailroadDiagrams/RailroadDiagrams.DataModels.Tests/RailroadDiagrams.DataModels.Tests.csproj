@@ -56,10 +56,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RailroadDiagrams.DataModels.Mock\RailroadDiagrams.DataModels.Mock.csproj">
-      <Project>{fb9a661a-ed3f-46b5-ba61-25d4a07cbb5f}</Project>
-      <Name>RailroadDiagrams.DataModels.Mock</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RailroadDiagrams.DataModels\RailroadDiagrams.DataModels.csproj">
       <Project>{9763c66d-987d-4b53-bed2-f55cbfd8d010}</Project>
       <Name>RailroadDiagrams.DataModels</Name>

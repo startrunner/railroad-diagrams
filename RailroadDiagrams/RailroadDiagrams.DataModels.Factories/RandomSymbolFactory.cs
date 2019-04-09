@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RailroadDiagrams.DataModels.Mock
+namespace RailroadDiagrams.DataModels.Factories
 {
-   public class MockSymbol : IMock<SymbolData>
+   public class RandomSymbolFactory : IFactory<SymbolData>
    {
       static readonly string[] TerminalNames = new string[] { "if", "else", "for", "while", "do", "class", "attached", "struct" };
       static readonly string[] NonTerminalNames = new string[] { "condition", "boolean-expression", "any-expression", "class-definition", "top-level-declaration" };
@@ -14,7 +14,7 @@ namespace RailroadDiagrams.DataModels.Mock
 
       Random random = new Random(DateTime.Now.GetHashCode());
 
-      public SymbolData Mock()
+      public SymbolData Create()
       {
          SymbolData rt = new SymbolData();
 

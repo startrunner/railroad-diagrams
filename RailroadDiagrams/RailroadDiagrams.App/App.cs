@@ -2,7 +2,7 @@
 using RailroadDiagrams.App.View;
 using RailroadDiagrams.App.ViewModel;
 using RailroadDiagrams.DataModels;
-using RailroadDiagrams.DataModels.Mock;
+using RailroadDiagrams.DataModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,7 +23,7 @@ namespace RailroadDiagrams.App
 
       public App() : base()
       {
-         DocumentData data = new MockDocument().Mock();
+         DocumentData data = new RandomDocumentFactory().Create();
          Document document = Document.Of(data);
          DocumentViewModel vm = new DocumentViewModel(document);
 

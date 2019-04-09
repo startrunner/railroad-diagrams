@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RailroadDiagrams.DataModels.Mock
+namespace RailroadDiagrams.DataModels.Factories
 {
-   interface IMock<T>
+   interface IFactory<T>
    {
-      T Mock();
+      T Create();
    }
 }

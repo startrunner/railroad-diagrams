@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailroadDiagrams.App", "RailroadDiagrams.App\RailroadDiagrams.App.csproj", "{47839384-CA8B-45F8-B475-3999F79E7806}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailroadDiagrams.DataModels", "RailroadDiagrams.DataModels\RailroadDiagrams.DataModels.csproj", "{9763C66D-987D-4B53-BED2-F55CBFD8D010}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailroadDiagrams.DataModels.Mock", "RailroadDiagrams.DataModels.Mock\RailroadDiagrams.DataModels.Mock.csproj", "{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailroadDiagrams.DataModels.Tests", "RailroadDiagrams.DataModels.Tests\RailroadDiagrams.DataModels.Tests.csproj", "{A95916D8-BA00-4E6A-A16A-E6915D91F02D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailroadDiagrams.DataModels.Factories", "RailroadDiagrams.DataModels.Factories\RailroadDiagrams.DataModels.Factories.csproj", "{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,22 +55,6 @@ Global
 		{9763C66D-987D-4B53-BED2-F55CBFD8D010}.Release|x64.Build.0 = Release|Any CPU
 		{9763C66D-987D-4B53-BED2-F55CBFD8D010}.Release|x86.ActiveCfg = Release|Any CPU
 		{9763C66D-987D-4B53-BED2-F55CBFD8D010}.Release|x86.Build.0 = Release|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|ARM.Build.0 = Debug|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|x64.Build.0 = Debug|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|x86.Build.0 = Debug|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|ARM.ActiveCfg = Release|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|ARM.Build.0 = Release|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|x64.ActiveCfg = Release|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|x64.Build.0 = Release|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|x86.ActiveCfg = Release|Any CPU
-		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|x86.Build.0 = Release|Any CPU
 		{A95916D8-BA00-4E6A-A16A-E6915D91F02D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A95916D8-BA00-4E6A-A16A-E6915D91F02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A95916D8-BA00-4E6A-A16A-E6915D91F02D}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -87,8 +71,27 @@ Global
 		{A95916D8-BA00-4E6A-A16A-E6915D91F02D}.Release|x64.Build.0 = Release|Any CPU
 		{A95916D8-BA00-4E6A-A16A-E6915D91F02D}.Release|x86.ActiveCfg = Release|Any CPU
 		{A95916D8-BA00-4E6A-A16A-E6915D91F02D}.Release|x86.Build.0 = Release|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|x64.Build.0 = Debug|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Debug|x86.Build.0 = Debug|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|ARM.Build.0 = Release|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|x64.ActiveCfg = Release|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|x64.Build.0 = Release|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB9A661A-ED3F-46B5-BA61-25D4A07CBB5F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7DFDB9D7-22ED-4D77-A749-8AAC1E6FF89A}
 	EndGlobalSection
 EndGlobal
